@@ -2,10 +2,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const URL_DB = require("./config");
+const URL_DB_BACKOFFICE = require("./config");
 
 // MODELS 
 const Professional = require("./models/Professional.js");
+const Admin = require("./models/Admin.js");
 
 // APP 
 const app = express();
@@ -21,7 +22,9 @@ app.set("port", process.env.PORT || 3001);
 
 
 /* ENDPOINTS */
-// GET PROFESSIONALS
+// PROFESIONALS -------------------------------------------------------------------------------
+// GET PROFESSIONALS ---------------------------------------- // 
+
 app.get("/professionals", (req, res) => {
     Professional.find()
     .then((professionals) => {
@@ -76,7 +79,6 @@ app.put("/professionals/:id", (req, res)=>{
     }
 })
 
-
 /* DELETE */
 app.delete("/professionals/:id", (req, res)=>{
     const ID_DELETE = req.params.id;
@@ -87,7 +89,6 @@ app.delete("/professionals/:id", (req, res)=>{
         )
     });
 });
-
 
 /* GET by ID */
 app.get("/professionals/:id", (req, res) => {
@@ -103,7 +104,6 @@ app.get("/professionals/:id", (req, res) => {
 /* GET by name */
 /* GET by zone */
 
-
 /* GET by job */
 app.get("/professionals/jobs/:job", (req, res) => {
     const JOB_REQUIRED = {$regex:req.params.job};
@@ -115,16 +115,48 @@ app.get("/professionals/jobs/:job", (req, res) => {
     })
     .catch((error) => { res.status(500).send({ error: "An error has ocurred." })});
 });
+/* ----------------------------------------------------------------------------------------------- */
+
+/* ADMINS */
+/* POST ADMINS */
+
+app.post("/admins", (req, res) => {
+    const ADMIN_REQUIRED = req.body;
+
+    Admin.findOne( {admin: ADMIN_REQUIRED.admin } )    
+    .then( admin => {
+        if ( admin.password === ADMIN_REQUIRED.password ) { 
+            res.status(200).send( {isAuth : true} ) }
+        /* TODO */
+        /* if (admin.password !== ADMIN_REQUIRED.password) { 
+             res.status(200).send( { isAuth : false} ) }
+            console.log(admin) */ 
+    })
+    .catch( error => { res.status(500).send({ error })});
+})
+
+
+app.get("/admins" , (req , res) => {
+    Admin.find()
+    .then(admins =>{
+        res.status(200).send(admins)
+    }) 
+})
+
 
 
 // DATABASE AND SERVER CONECTION
-mongoose.connect(URL_DB, { useNewUrlParser: true, useUnifiedTopology: true }, (error) => {
+mongoose.connect(URL_DB_BACKOFFICE, { useNewUrlParser: true, useUnifiedTopology: true }, (error) => {
     if (error) { console.log("Error on try connect database.\n") }
     else {
         console.log("Database conected.\n")
 
         app.listen(app.get("port"), (error) => {
-            console.log(`Server running in port ${app.get("port")}\n`);
+            !error ? (
+                console.log(`Server running in port ${app.get("port")}\n`)
+            )
+            : (console.log("Error at trying to run Backserver."))
+            
         })
     }
 })

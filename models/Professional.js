@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const professionalSchema = new mongoose.Schema({
-    id: Number,
     name: String,
     hourPrice: Number,
     job: String,
