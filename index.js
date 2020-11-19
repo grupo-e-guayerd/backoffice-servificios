@@ -102,7 +102,29 @@ app.get("/professionals/:id", (req, res) => {
 })
 
 /* GET by name */
+app.get("/professionals/names/:name", (req, res) => {
+    const NAME_REQUIRED = {$regex:req.params.name};
+
+    Professional.find({name: NAME_REQUIRED})
+    .then((nameRequiredProfessionals)=>{
+        nameRequiredProfessionals.length === 0 && (res.status(400).send({error: `${NAME_REQUIRED} not found.`}))
+        nameRequiredProfessionals.length > 0 && ( res.status(200).send({nameRequiredProfessionals}))
+    })
+    .catch((error) => { res.status(500).send({ error: "An error has ocurred." })});
+});
+
 /* GET by zone */
+app.get("/professionals/zones/:zone", (req, res) => {
+    const ZONE_REQUIRED = {$regex:req.params.zone};
+
+    Professional.find({zone: ZONE_REQUIRED})
+    .then((zoneRequiredProfessionals)=>{
+        zoneRequiredProfessionals.length === 0 && (res.status(400).send({error: `${ZONE_REQUIRED} not found.`}))
+        zoneRequiredProfessionals.length > 0 && ( res.status(200).send({zoneRequiredProfessionals}))
+    })
+    .catch((error) => { res.status(500).send({ error: "An error has ocurred." })});
+});
+
 
 /* GET by job */
 app.get("/professionals/jobs/:job", (req, res) => {
