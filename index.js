@@ -116,7 +116,7 @@ app.get("/professionals/names/:name", (req, res) => {
 app.get("/professionals/zones/:zone", (req, res) => {
     const ZONE_REQUIRED = {$regex:req.params.zone};
 
-    Professional.find({name: ZONE_REQUIRED})
+    Professional.find({zone: ZONE_REQUIRED})
     .then((zoneRequiredProfessionals)=>{
         zoneRequiredProfessionals.length === 0 && (res.status(400).send({error: `${ZONE_REQUIRED} not found.`}))
         zoneRequiredProfessionals.length > 0 && ( res.status(200).send({zoneRequiredProfessionals}))
