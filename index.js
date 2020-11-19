@@ -146,15 +146,15 @@ app.post("/admins", (req, res) => {
     const ADMIN_REQUIRED = req.body;
 
     Admin.findOne( {admin: ADMIN_REQUIRED.admin } )    
-    .then( admin => {
-        if ( admin.password === ADMIN_REQUIRED.password ) { 
-            res.status(200).send( {isAuth : true} ) }
-        /* TODO */
-        /* if (admin.password !== ADMIN_REQUIRED.password) { 
-             res.status(200).send( { isAuth : false} ) }
-            console.log(admin) */ 
+    .then( admin => { if (!admin) return res.status(400).send( {isAuth : false} ) 
+    
+        if ( admin.password === ADMIN_REQUIRED.password )  {
+            res.status(200).send( {isAuth : true} )
+        }
+        else 
+            res.status(400).send( {isAuth : false} )
     })
-    .catch( error => { res.status(500).send({ error })});
+    .catch( error => { console.log("err") });
 })
 
 
