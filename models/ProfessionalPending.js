@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const professionalSchema = new mongoose.Schema({
+const pendingSchema = new mongoose.Schema({
     name: String,
     hourPrice: Number,
     job: String,
@@ -12,4 +12,4 @@ const professionalSchema = new mongoose.Schema({
     status: Boolean
 })
 
-module.exports = mongoose.model("Professional", professionalSchema);
+module.exports = mongoose.model("Pending", pendingSchema);
