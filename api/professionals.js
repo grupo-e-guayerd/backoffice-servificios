@@ -41,7 +41,7 @@ router.get("/professionals/:id", (req, res) => {
 
     Professional.findById( { _id: ID_REQUIRED })
     .then((professional)=>{
-        professional ? res.status(200).send(professional) : res.status(400).send({error: `_id: ${ID_REQUIRED} Not found.`})
+        professional ? res.status(200).send([professional]) : res.status(400).send({error: `_id: ${ID_REQUIRED} Not found.`})
     })
     .catch( error => { res.status(500).send({ error: "An error has ocurred." }) })
 })
@@ -85,13 +85,11 @@ router.get("/professionals/jobs/:job", (req, res) => {
 //------------------ /* POST */ ---------------------------// 
 router.post("/professionals", (req, res) => {
     const obj = { ...req.body }
-
     const doc = new Professional(obj);
 
     doc.save()
     .then(professional => { res.status(200).send(professional) })
     .catch((error) => { res.status(500).send({ error: "An error has ocurred." }) });
-
 });
 
 //------------------ /* PUT */ ---------------------------// 
