@@ -17,7 +17,13 @@ router.get("/pendings", (req, res) => {
 })
 
 router.post("/pendings", (req, res)=>{
-    const NEW_PROF_PENDING = "hola";
+    const NEW_PROF_PENDING = {... req.body};
+
+    const doc = new Pending(NEW_PROF_PENDING);
+
+    doc.save()
+    .then( profPending => res.status(200).send(profPending))
+    .catch((error) => { res.status(500).send({ error: "An error has ocurred." }) });
 });
 
 
