@@ -120,4 +120,10 @@ router.delete("/professionals/:id", (req, res)=>{
     });
 });
 
+/* Extra Function ------------------------------------------------------------ */
+let validatePUTData = (professionalToPUT)=>{
+    const { name, hourPrice, job, currency, rating, description, zone, imgUrl} = professionalToPUT;
+    if ( name && hourPrice && job && currency && rating && description && zone && imgUrl ) { return true }
+}
+
 module.exports = router; 

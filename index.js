@@ -36,8 +36,3 @@ mongoose.connect(URL_DB_BACKOFFICE, { useNewUrlParser: true, useUnifiedTopology:
         })
     }
 })
-/* Extra Function ------------------------------------------------------------ */
-let validatePUTData = (professionalToPUT)=>{
-    const { name, hourPrice, job, currency, rating, description, zone, imgUrl} = professionalToPUT;
-    if ( name && hourPrice && job && currency && rating && description && zone && imgUrl ) { return true }
-}
