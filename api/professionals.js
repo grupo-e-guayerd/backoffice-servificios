@@ -53,7 +53,7 @@ router.get("/professionals/names/:name", (req, res) => {
     Professional.find({name: NAME_REQUIRED})
     .then((nameRequiredProfessionals)=>{
         nameRequiredProfessionals.length === 0 && (res.status(400).send({error: `${NAME_REQUIRED} not found.`}))
-        nameRequiredProfessionals.length > 0 && ( res.status(200).send({nameRequiredProfessionals}))
+        nameRequiredProfessionals.length > 0 && ( res.status(200).send(nameRequiredProfessionals))
     })
     .catch( error => { res.status(500).send({ error: "An error has ocurred." })});
 });
@@ -65,7 +65,7 @@ router.get("/professionals/zones/:zone", (req, res) => {
     Professional.find({zone: ZONE_REQUIRED})
     .then((zoneRequiredProfessionals)=>{
         zoneRequiredProfessionals.length === 0 && (res.status(400).send({error: `${ZONE_REQUIRED} not found.`}))
-        zoneRequiredProfessionals.length > 0 && ( res.status(200).send({zoneRequiredProfessionals}))
+        zoneRequiredProfessionals.length > 0 && ( res.status(200).send(zoneRequiredProfessionals))
     })
     .catch((error) => { res.status(500).send({ error: "An error has ocurred." })});
 });
@@ -77,7 +77,7 @@ router.get("/professionals/jobs/:job", (req, res) => {
     Professional.find({job: JOB_REQUIRED})
     .then((jobRequiredProfessionals)=>{
         jobRequiredProfessionals.length === 0 && (res.status(400).send({error: `${JOB_REQUIRED} not found.`}))
-        jobRequiredProfessionals.length > 0 && ( res.status(200).send({jobRequiredProfessionals}))
+        jobRequiredProfessionals.length > 0 && ( res.status(200).send(jobRequiredProfessionals))
     })
     .catch((error) => { res.status(500).send({ error: "An error has ocurred." })});
 });
