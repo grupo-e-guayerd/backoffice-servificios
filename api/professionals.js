@@ -90,7 +90,7 @@ router.post("/professionals", (req, res) => {
 
     doc.save()
     .then(professional => { res.status(200).send(professional) })
-    .catch((error) => { res.status(500).send({ error: "An error has ocurred." }) })
+    .catch((error) => { res.status(500).send({ error: "An error has ocurred." }) });
 
 });
 
