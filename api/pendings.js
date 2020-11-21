@@ -5,7 +5,7 @@ const { Router } = require(`express`);
 const router = Router();
 
 // MODELS 
-const Pending = require("../models/ProfessionalPending.js");
+const Pending = require("../models/Pending.js");
 
 
 /* ENDPOINTS professinalPendings ------------------------------------------------------------------------ */
