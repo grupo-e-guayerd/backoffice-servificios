@@ -21,6 +21,7 @@ app.use(require("./api/professionals"));
 app.use(require("./api/professionalsPending"));
 app.use(require("./api/admins"));
 app.use(require("./api/categories"));
+app.use(require("./api/zones"));
 
 
 // DATABASE AND SERVER CONECTION
