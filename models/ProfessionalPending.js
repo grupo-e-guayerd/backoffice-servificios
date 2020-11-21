@@ -9,7 +9,11 @@ const pendingSchema = new mongoose.Schema({
     description: String,
     zone: String,
     imgUrl: String,
-    status: Boolean
+    status: Boolean,
+    dni: Number,
+    email: String,
+    phone: Number,
+    seniority: Number
 })
 
 module.exports = mongoose.model("Pending", pendingSchema);
