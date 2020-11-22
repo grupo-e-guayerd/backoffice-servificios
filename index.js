@@ -18,7 +18,7 @@ app.set("port", process.env.PORT || 3001);
 
 /* ENDPOINTS */
 app.use(require("./api/professionals"));
-app.use(require("./api/professionalsPending"));
+app.use(require("./api/pendings"));
 app.use(require("./api/admins"));
 app.use(require("./api/categories"));
 app.use(require("./api/zones"));
