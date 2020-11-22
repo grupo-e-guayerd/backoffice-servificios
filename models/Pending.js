@@ -13,7 +13,8 @@ const pendingSchema = new mongoose.Schema({
     dni: Number,
     email: String,
     phone: Number,
-    seniority: Number
+    seniority: Number,
+    registrationDate: Date
 })
 
 module.exports = mongoose.model("Pending", pendingSchema);
