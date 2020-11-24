@@ -1,5 +1,5 @@
 /* DEPENDECIES */
-const { Router } = require(`express`); 
+const { Router, json } = require(`express`); 
 
 // APP 
 const router = Router();
@@ -60,6 +60,17 @@ router.get("/pendings/jobs/:job", (req, res) => {
         jobRequiredPendings.length > 0 && ( res.status(200).send(jobRequiredPendings))
     })
     .catch((error) => { res.status(500).send({ error: "An error has ocurred." })});
+});
+
+
+router.delete("/pendings/:id", (req, res)=>{
+    const ID_DELETE = req.params.id;
+
+    Pending.findByIdAndDelete(ID_DELETE)
+    .then( response => {
+        if (!response) { return res.status(400).send({error: `ID ${ID_DELETE} not found.`}) }
+        res.status(200).send(response)
+    }).catch( error => { res.status(500).send({ error: "An error has ocurred." }) });
 });
 
 
