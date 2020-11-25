@@ -1,5 +1,7 @@
 /* DEPENDECIES */
-const { Router } = require(`express`); 
+const { Router } = require(`express`);
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 // APP 
 const router = Router();
@@ -7,27 +9,58 @@ const router = Router();
 // MODELS 
 const Admin = require("../models/Admin");
 
-/* ENDPOINTS ADMINS */
-//------------------ /* GET */ ---------------------------// 
+/* ADMINS */
+
+/* LOGIN ADMINS */
+router.post("/login", (req, res) => {
+
+    const {admin, password} = req.body;
+    Admin.findOne({admin: admin})
+    .then(admin => {  if(!admin) return res.status(400).send({isAuth : false});
+        bcrypt.compare(password, admin.password)
+        .then(match=> {   if(!match) return res.status(400).send({isAuth : false});
+            jwt.sign({admin}, "secretgrupoe", (err, token) => {
+                res.send({token});
+            });
+        })
+        .catch(err=> res.status(500).send({err:"Error 500"}));
+    })
+    .catch(err=> res.status(500).send({err:"Error 500"}));
+
+})
+
+/* REGISTER ADMINS */
+router.post("/register", (req,res) => {
+
+    const {admin, password} = req.body;
+    const doc = new Admin ({ admin, password });
+
+    doc.save()
+    .then(user=> res.status(201).send({message:"User created"}))
+    .catch(err=> res.status(500).send({err:"Error 500"}));
+
+})
+
+/* ALL ADMINS */
 router.get("/admins" , (req , res) => {
     Admin.find()
-    .then(admins => {res.status(200).send(admins)}) 
+    .then(admins =>{
+        res.status(200).send(admins)
+    }) 
 })
 
-//------------------ /* POST */ ---------------------------// 
-router.post("/admins", (req, res) => {
-    const ADMIN_REQUIRED = req.body;
+/* FUNCTION VERIFY (AUTHORIZATION) */
+function verifyToken(req, res, next) {
+    const bearer  = req.headers["authorization"];
 
-    Admin.findOne( {admin: ADMIN_REQUIRED.admin } )    
-    .then( admin => { if (!admin) return res.status(400).send( {isAuth : false} ) 
-    
-        if ( admin.password === ADMIN_REQUIRED.password )  {
-            res.status(200).send( {isAuth : true} )
-        }
-        else 
-            res.status(400).send( {isAuth : false} )
-    })
-    .catch( error => { console.log("err") });
-})
+    if(typeof bearer !== "undefined") {
+        const bearerToken = bearer.split(" ")[1];
+        req.token = bearerToken;
+        next();
+    }
+    else {
+        res.status(403).send({err: "No autorizado"});
+    }
+}
 
 module.exports = router; 

@@ -5,6 +5,9 @@ const cors = require("cors");
 const mercadopago = require("mercadopago")
 const URL_DB_BACKOFFICE = require("./config"); 
 const { response } = require("express");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const Admin = require("./models/Admin.js");
 
 // APP 
 const app = express();
