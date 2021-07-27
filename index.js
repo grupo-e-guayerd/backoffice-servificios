@@ -46,6 +46,7 @@ app.get("/mercadopago", (req, res) => {
     .catch((error) => console.log(error));
 });
 
+const TOKEN = TOKEN_MP.process.env;
 // DATABASE AND SERVER CONECTION
 mongoose.connect(
   URL_DB_BACKOFFICE,
@@ -61,8 +62,7 @@ mongoose.connect(
           console.log(`Server running in port ${app.get("port")}\n`);
 
           mercadopago.configure({
-            access_token:
-              "TEST-3985581771884986-112217-c8858a875a1f0d2dd6aaefce5f1a0393-238730444",
+            access_token: TOKEN,
           });
         } else {
           console.log("Error at trying to run Backserver.");
